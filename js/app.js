@@ -24,22 +24,38 @@ $(function() {
 			success: function(data, status, jqXHR) {
 				var dataArr = data.Search;
 				var movieHTML = '';
-				for (var i = 0; i < dataArr.length; i++) {
-					movieHTML += '<li>';
-					movieHTML += '<div class="poster-wrap">';
-					movieHTML += '<img class="movie-poster" src="';
-					movieHTML +=  dataArr[i].Poster;
-					movieHTML += '">';
-					movieHTML += '</div>';
-					movieHTML += '<span class="movie-title">';
-					movieHTML += dataArr[i].Title;
-					movieHTML += '</span>';
-					movieHTML += '<span class="movie-year">';
-					movieHTML += dataArr[i].Year;
-					movieHTML += '</span>';
+				if (data.Response === 'False') {
+					movieHTML += '<li class="no-movies">';
+					movieHTML += '<i class="material-icons icon-help">';
+					movieHTML += 'help_outline';
+					movieHTML += '</i>';
+					movieHTML += 'No movies found that match: ';
+					movieHTML += searchInput + '.';
 					movieHTML += '</li>';
 					populateIdWithHTML('movies', movieHTML);
-				}
+				} 
+				else {
+					for (var i = 0; i < dataArr.length; i++) {
+						movieHTML += '<li>';
+						movieHTML += '<div class="poster-wrap">';
+						if (dataArr[i].Poster === 'N/A') {
+							movieHTML += '<i class="material-icons poster-placeholder">crop_original</i>';
+						} else {
+							movieHTML += '<img class="movie-poster" src="';
+							movieHTML +=  dataArr[i].Poster;
+							movieHTML += '">';
+						}
+						movieHTML += '</div>';
+						movieHTML += '<span class="movie-title">';
+						movieHTML += dataArr[i].Title;
+						movieHTML += '</span>';
+						movieHTML += '<span class="movie-year">';
+						movieHTML += dataArr[i].Year;
+						movieHTML += '</span>';
+						movieHTML += '</li>';
+						populateIdWithHTML('movies', movieHTML);	
+					}
+				}	
 			}
 		})
 		.done(function() {
