@@ -1,18 +1,17 @@
 $(function() {
 
-	$('#search').keypress(function(e) {
-		if (e.which === 13) {
+	$('#search').keypress(function(evt) {
+		if (evt.which === 13) {
 			movieSearch();
-			$('#search').val('');
-			return false;
+			evt.preventDefault();
 		}
 	});
 
-	$('#submit').click(function() {
+	$('#submit').click(function(evt) {
 		movieSearch();
-		$('#search').val('');
-		return false;
+		evt.preventDefault();
 	});
+
 
 	function movieSearch() {
 		var searchInput = $('#search').val();
@@ -37,6 +36,7 @@ $(function() {
 				else {
 					for (var i = 0; i < dataArr.length; i++) {
 						movieHTML += '<li>';
+						movieHTML += '<a target="_blank" href="http://www.imdb.com/title/' + dataArr[i].imdbID + '/">';
 						movieHTML += '<div class="poster-wrap">';
 						if (dataArr[i].Poster === 'N/A') {
 							movieHTML += '<i class="material-icons poster-placeholder">crop_original</i>';
@@ -52,20 +52,22 @@ $(function() {
 						movieHTML += '<span class="movie-year">';
 						movieHTML += dataArr[i].Year;
 						movieHTML += '</span>';
+						movieHTML += '</a>';
 						movieHTML += '</li>';
-						populateIdWithHTML('movies', movieHTML);	
+						populateIdWithHTML('movies', movieHTML);
 					}
-				}	
+				}
+				$('#search').val('');		
 			}
 		})
 		.done(function() {
-			console.log("success");
+		//	console.log("success");
 		})
 		.fail(function() {
-			console.log("error");
+		//	console.log("error");
 		})
 		.always(function() {
-			console.log("complete");
+		//	console.log("complete");
 		});
 	}
 
