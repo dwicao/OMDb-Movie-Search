@@ -15,7 +15,7 @@ $(function() {
 
 	function movieSearch() {
 		var searchInput = $('#search').val();
-		var url = "http://www.omdbapi.com/?s="+ searchInput +"&r=json";
+		var url = "https://www.omdbapi.com/?s="+ searchInput +"&r=json";
 		$.ajax({
 			url: url,
 			type: "GET",
